@@ -1,27 +1,25 @@
 // 文章数据
-const posts = [
-    {
-        id: 1,
-        title: "欢迎来到我的博客",
-        date: "2026-02-28",
-        excerpt: "这是我的第一篇博客文章。在这里，我将分享关于技术、生活和学习的内容。",
-        content: "posts/welcome.html",
-        tags: ["博客", "开始"]
-    }
-];
+const posts = [];
 
 // 加载文章列表
 function loadPosts() {
     const container = document.getElementById('posts-container');
     
     if (posts.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">暂无文章</p>';
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">📝</div>
+                <h3>暂无文章</h3>
+                <p>敬请期待精彩内容...</p>
+            </div>
+        `;
         return;
     }
     
-    posts.forEach(post => {
+    posts.forEach((post, index) => {
         const postCard = document.createElement('article');
         postCard.className = 'post-card';
+        postCard.style.animationDelay = `${index * 0.1}s`;
         
         const tagsHtml = post.tags ? 
             `<div class="post-tags">${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : '';

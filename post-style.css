@@ -215,3 +215,164 @@ body.dark-theme .post-content {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
+
+
+/* 头部样式 */
+header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    margin-bottom: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+header:hover::before {
+    opacity: 0.5;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.site-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(139, 92, 246, 0.1));
+    border-radius: 12px;
+    border: 1px solid rgba(0, 113, 227, 0.2);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.site-logo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.2), rgba(139, 92, 246, 0.2));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.site-logo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
+}
+
+.site-logo:hover::before {
+    opacity: 1;
+}
+
+.header-main {
+    flex: 1;
+}
+
+.header-main h1 {
+    font-size: 2rem;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.header-main .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.8;
+}
+
+footer {
+    margin-top: 100px;
+    padding: 50px 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.theme-toggle {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .header-main h1 {
+        font-size: 1.75rem;
+    }
+    
+    .header-main .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .site-logo {
+        font-size: 1.25rem;
+        padding: 6px 12px;
+    }
+    
+    header {
+        padding: 20px 0;
+        margin-bottom: 40px;
+    }
+}
