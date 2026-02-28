@@ -124,11 +124,18 @@ body {
 }
 
 .post-content pre {
-    background: #2d3748;
+    background: #f6f8fa;
     padding: 24px;
     border-radius: 12px;
     overflow-x: auto;
     margin-bottom: 28px;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 有语言标记的代码块使用深色主题 */
+.post-content pre[class*="language-"] {
+    background: #2d3748;
     border: 1px solid #1a202c;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -137,10 +144,15 @@ body {
     background: none;
     padding: 0;
     border: none;
-    color: #e2e8f0;
+    color: #24292e;
     font-weight: 400;
     font-size: 0.9rem;
     line-height: 1.6;
+}
+
+/* 有语言标记的代码使用浅色文字 */
+.post-content pre[class*="language-"] code {
+    color: #e2e8f0;
 }
 
 .post-content ul, .post-content ol {
