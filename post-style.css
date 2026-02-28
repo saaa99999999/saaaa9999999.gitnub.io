@@ -191,7 +191,7 @@ body {
     }
 }
 
-/* 头部样式 */
+/* 头部样式 - 文章页面不使用粘性定位 */
 header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
@@ -199,8 +199,7 @@ header {
     border-bottom: 1px solid var(--border);
     padding: 20px 0;
     margin-bottom: 60px;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 50;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.3s;
