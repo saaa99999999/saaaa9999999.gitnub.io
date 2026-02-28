@@ -229,6 +229,9 @@ header:hover::before {
 }
 
 .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-size: 1.75rem;
     font-weight: 800;
     color: var(--text-primary);
@@ -237,6 +240,21 @@ header:hover::before {
     cursor: pointer;
     position: relative;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.site-logo img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.site-logo:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .site-logo:hover {
@@ -462,7 +480,7 @@ footer {
 
 /* 滚动条美化 */
 .table-of-contents::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .table-of-contents::-webkit-scrollbar-track {
@@ -470,10 +488,10 @@ footer {
 }
 
 .table-of-contents::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
 }
 
 .table-of-contents::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
+    background: rgba(0, 0, 0, 0.2);
 }

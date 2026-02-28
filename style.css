@@ -74,6 +74,9 @@ header:hover::before {
 }
 
 .site-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-size: 1.75rem;
     font-weight: 800;
     color: var(--text-primary);
@@ -82,6 +85,21 @@ header:hover::before {
     cursor: pointer;
     position: relative;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.site-logo img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.site-logo:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .site-logo:hover {
@@ -310,20 +328,28 @@ footer {
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: background 0.3s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-hover);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox 滚动条 */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
 
 

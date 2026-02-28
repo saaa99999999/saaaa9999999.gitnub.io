@@ -67,7 +67,7 @@ async function loadPost() {
             </div>
             ${content}
         `;
-        document.title = `${post.title} - sa9's Blog`;
+        document.title = `${post.title} - saaa9999's Blog`;
         
         // 生成目录
         setTimeout(() => {
