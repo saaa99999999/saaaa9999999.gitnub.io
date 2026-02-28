@@ -1,6 +1,8 @@
-# 我的博客
+# saaa999 的博客
 
 一个简洁的静态博客模板，适用于 GitHub Pages。
+
+博客地址：https://saaa99999999.github.io/saaaa9999999.gitnub.io
 
 ## 文件结构
 
@@ -39,7 +41,7 @@
 1. 将所有文件推送到你的 GitHub 仓库
 2. 在仓库设置中启用 GitHub Pages
 3. 选择主分支作为源
-4. 访问 `https://你的用户名.github.io/仓库名/`
+4. 访问 `https://saaa99999999.github.io/saaaa9999999.gitnub.io/`
 
 ## 自定义
 
