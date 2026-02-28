@@ -1,5 +1,15 @@
 // 文章数据
-const posts = [];
+const posts = [
+    {
+        id: 1,
+        title: '第一篇博客 记iot逆向入门',
+        date: '2026-02-28',
+        excerpt: '记录了两道 IoT 逆向题目的解题过程：路由器固件逆向和 RFID/NFC 通信分析。从 binwalk 固件提取到 Amiibo 卡片数据解密，涵盖了 IoT 安全的基础知识和工具使用。',
+        tags: ['IoT', '逆向', 'RFID', 'NFC', 'CTF'],
+        readTime: '8 分钟阅读',
+        url: 'posts/post-1.html'
+    }
+];
 
 // 每页显示的文章数
 const postsPerPage = 5;
@@ -43,14 +53,14 @@ function loadPosts() {
         const readTime = post.readTime || '5 分钟阅读';
         
         postCard.innerHTML = `
-            <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+            <h2><a href="${post.url}">${post.title}</a></h2>
             <div class="post-meta">
                 <span class="meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${post.date}</span>
                 <span class="meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${readTime}</span>
             </div>
             ${tagsHtml}
             <p class="post-excerpt">${post.excerpt}</p>
-            <a href="post.html?id=${post.id}" class="read-more">阅读全文</a>
+            <a href="${post.url}" class="read-more">阅读全文</a>
         `;
         container.appendChild(postCard);
     });
@@ -159,14 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const readTime = post.readTime || '5 分钟阅读';
                     
                     postCard.innerHTML = `
-                        <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+                        <h2><a href="${post.url}">${post.title}</a></h2>
                         <div class="post-meta">
                             <span class="meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${post.date}</span>
                             <span class="meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${readTime}</span>
                         </div>
                         ${tagsHtml}
                         <p class="post-excerpt">${post.excerpt}</p>
-                        <a href="post.html?id=${post.id}" class="read-more">阅读全文</a>
+                        <a href="${post.url}" class="read-more">阅读全文</a>
                     `;
                     container.appendChild(postCard);
                 });
