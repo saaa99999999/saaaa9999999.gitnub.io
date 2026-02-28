@@ -334,3 +334,146 @@ footer {
         margin-bottom: 40px;
     }
 }
+
+
+/* 文章布局 */
+.post-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* 目录样式 */
+.table-of-contents {
+    position: sticky;
+    top: 100px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+
+.toc-header {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#toc-nav {
+    font-size: 0.875rem;
+}
+
+#toc-nav a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -12px;
+    transition: all 0.2s;
+    line-height: 1.5;
+}
+
+#toc-nav a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    padding-left: 16px;
+}
+
+#toc-nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+}
+
+#toc-nav .toc-h3 {
+    padding-left: 24px;
+    font-size: 0.8125rem;
+}
+
+/* 文章内容增强 */
+.post-content {
+    min-width: 0;
+}
+
+.post-content blockquote {
+    margin: 24px 0;
+    padding: 16px 20px;
+    border-left: 4px solid var(--accent);
+    background: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 24px 0;
+    box-shadow: var(--shadow-md);
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 0.95rem;
+}
+
+.post-content table th,
+.post-content table td {
+    padding: 12px;
+    border: 1px solid var(--border);
+    text-align: left;
+}
+
+.post-content table th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.post-content table tr:hover {
+    background: var(--bg-secondary);
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+    .post-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-of-contents {
+        position: relative;
+        top: 0;
+        max-height: none;
+        margin-bottom: 32px;
+    }
+}
+
+/* 滚动条美化 */
+.table-of-contents::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-of-contents::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-of-contents::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.table-of-contents::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}

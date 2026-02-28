@@ -6,6 +6,7 @@
     <title>文章详情 - saaa999 的博客</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="post-style.css">
+    <link rel="stylesheet" href="prism.css">
 </head>
 <body>
     <header>
@@ -21,13 +22,19 @@
     </header>
 
     <main class="container">
-        <article class="post-content">
-            <div id="post-detail">
-                <!-- 文章内容将通过 JavaScript 动态加载 -->
-            </div>
-        </article>
+        <div class="post-layout">
+            <aside class="table-of-contents">
+                <div class="toc-header">目录</div>
+                <nav id="toc-nav"></nav>
+            </aside>
+            <article class="post-content">
+                <div id="post-detail">
+                    <!-- 文章内容将通过 JavaScript 动态加载 -->
+                </div>
+            </article>
+        </div>
         <div class="back-link">
-            <a href="index.html">← 返回首页</a>
+            <a href="index.html">返回首页</a>
         </div>
     </main>
 
@@ -38,5 +45,6 @@
     </footer>
 
     <script src="post-script.js"></script>
+    <script src="prism.js"></script>
 </body>
 </html>

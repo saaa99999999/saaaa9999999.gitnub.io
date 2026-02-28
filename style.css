@@ -550,3 +550,98 @@ body::before {
         transform: translate(20px, 20px);
     }
 }
+
+
+/* 分页样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 60px 0 40px;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
+}
+
+.page-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.page-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.page-dots {
+    color: var(--text-secondary);
+    padding: 0 8px;
+}
+
+/* 文章元信息样式优化 */
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+    font-weight: 500;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-item svg {
+    opacity: 0.7;
+}
+
+/* 微妙的悬停效果 */
+.post-card h2 a {
+    background-image: linear-gradient(to right, var(--accent) 0%, var(--accent) 100%);
+    background-size: 0 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s;
+}
+
+.post-card h2 a:hover {
+    background-size: 100% 2px;
+}
+
+/* 细节装饰 */
+.post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(180deg, var(--accent), #8b5cf6);
+    border-radius: 0 4px 4px 0;
+    transition: height 0.4s;
+}
+
+.post-card:hover::before {
+    height: 100%;
+}

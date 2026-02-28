@@ -1,0 +1,137 @@
+/* PrismJS 代码高亮主题 - 简洁风格 */
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #24292e;
+    background: none;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 0.9em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.6;
+    tab-size: 4;
+    hyphens: none;
+}
+
+pre[class*="language-"] {
+    padding: 1.5em;
+    margin: 1.5em 0;
+    overflow: auto;
+    border-radius: 8px;
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #f6f8fa;
+}
+
+:not(pre) > code[class*="language-"] {
+    padding: 0.1em 0.3em;
+    border-radius: 0.3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #6a737d;
+    font-style: italic;
+}
+
+.token.namespace {
+    opacity: 0.7;
+}
+
+.token.string,
+.token.attr-value {
+    color: #032f62;
+}
+
+.token.punctuation,
+.token.operator {
+    color: #24292e;
+}
+
+.token.entity,
+.token.url,
+.token.symbol,
+.token.number,
+.token.boolean,
+.token.variable,
+.token.constant,
+.token.property,
+.token.regex,
+.token.inserted {
+    color: #005cc5;
+}
+
+.token.atrule,
+.token.keyword,
+.token.attr-name,
+.language-autohotkey .token.selector {
+    color: #d73a49;
+}
+
+.token.function,
+.token.deleted,
+.language-autohotkey .token.tag {
+    color: #6f42c1;
+}
+
+.token.tag,
+.token.selector,
+.language-autohotkey .token.keyword {
+    color: #22863a;
+}
+
+.token.important,
+.token.function,
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+/* 行号 */
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em;
+    letter-spacing: -1px;
+    border-right: 1px solid #e1e4e8;
+    user-select: none;
+}
+
+.line-numbers-rows > span {
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
