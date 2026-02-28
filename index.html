@@ -14,19 +14,67 @@
                     <img src="avatar.jpg" alt="saaa9999">
                     <span>saaa9999</span>
                 </div>
-                <div class="header-main">
-                    <h1>saaa9999's Blog</h1>
-                    <p class="subtitle">希望永远对 CTF 充满热情</p>
+                <nav class="main-nav">
+                    <a href="index.html" class="nav-link active">首页</a>
+                    <a href="archive.html" class="nav-link">归档</a>
+                </nav>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="搜索文章...">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <div id="posts-container">
-            <!-- 文章列表将通过 JavaScript 动态加载 -->
+    <main class="container main-container">
+        <div class="content-wrapper">
+            <div class="main-content">
+                <div class="hero-section">
+                    <h1 class="hero-title">saaa9999's Blog</h1>
+                    <p class="hero-subtitle">希望永远对 CTF 充满热情</p>
+                </div>
+                <div id="posts-container">
+                    <!-- 文章列表将通过 JavaScript 动态加载 -->
+                </div>
+                <div id="pagination"></div>
+            </div>
+            <aside class="sidebar">
+                <div class="widget tags-widget">
+                    <h3 class="widget-title">热门标签</h3>
+                    <div class="tag-cloud" id="tag-cloud">
+                        <!-- 标签云将通过 JavaScript 动态加载 -->
+                    </div>
+                </div>
+                
+                <div class="widget recent-widget">
+                    <h3 class="widget-title">最近文章</h3>
+                    <div class="recent-posts" id="recent-posts">
+                        <!-- 最近文章将通过 JavaScript 动态加载 -->
+                    </div>
+                </div>
+                
+                <div class="widget stats-widget">
+                    <h3 class="widget-title">统计信息</h3>
+                    <div class="stats-content">
+                        <div class="stat-item">
+                            <span class="stat-label">文章总数</span>
+                            <span class="stat-value" id="total-posts">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">标签总数</span>
+                            <span class="stat-value" id="total-tags">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">运行天数</span>
+                            <span class="stat-value" id="running-days">0</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-        <div id="pagination"></div>
     </main>
 
     <footer>

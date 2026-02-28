@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签 - saaa9999's Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="site-logo">
+                    <img src="avatar.jpg" alt="saaa9999">
+                    <span>saaa9999</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="archive.html" class="nav-link">归档</a>
+                    <a href="tags.html" class="nav-link active">标签</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                </nav>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="搜索文章...">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">标签云</h1>
+            <p class="hero-subtitle">共 <span id="tags-count">0</span> 个标签</p>
+        </div>
+        <div id="tags-container" style="max-width: 800px; margin: 0 auto;"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 saaa9999. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="tags-script.js"></script>
+</body>
+</html>
