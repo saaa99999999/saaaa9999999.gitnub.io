@@ -175,24 +175,255 @@ header {
     transform: scale(1.1);
 }
 
-/* Hero 区域 - 真实白云背景 */
+/* Hero 区域 - 晴天动态白云动画 */
 .hero-section {
     text-align: center;
     padding: 140px 60px 120px;
     margin: 0 -40px 80px -40px;
-    background: 
-        linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.85) 100%),
-        url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=1920&q=95') center/cover no-repeat;
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
     position: relative;
     overflow: hidden;
 }
 
+/* 太阳 */
 .hero-section::before {
     content: '';
     position: absolute;
+    top: 40px;
+    right: 80px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #FDB813 0%, #FFED4E 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px rgba(253, 184, 19, 0.6);
+    animation: sunPulse 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes sunPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 60px rgba(253, 184, 19, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 80px rgba(253, 184, 19, 0.8);
+    }
+}
+
+/* 白云容器 */
+.clouds {
+    position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
-    pointer-events: none;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* 白云样式 */
+.cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 100px;
+    opacity: 0.9;
+    filter: blur(2px);
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 100px;
+}
+
+/* 云朵1 - 大 */
+.cloud1 {
+    width: 180px;
+    height: 60px;
+    top: 20%;
+    left: -200px;
+    animation: float1 35s linear infinite;
+}
+
+.cloud1::before {
+    width: 100px;
+    height: 80px;
+    top: -40px;
+    left: 30px;
+}
+
+.cloud1::after {
+    width: 120px;
+    height: 70px;
+    top: -30px;
+    right: 20px;
+}
+
+/* 云朵2 - 中 */
+.cloud2 {
+    width: 140px;
+    height: 50px;
+    top: 40%;
+    left: -180px;
+    animation: float2 40s linear infinite;
+    animation-delay: 5s;
+}
+
+.cloud2::before {
+    width: 80px;
+    height: 60px;
+    top: -30px;
+    left: 25px;
+}
+
+.cloud2::after {
+    width: 90px;
+    height: 55px;
+    top: -25px;
+    right: 15px;
+}
+
+/* 云朵3 - 小 */
+.cloud3 {
+    width: 100px;
+    height: 40px;
+    top: 60%;
+    left: -150px;
+    animation: float3 30s linear infinite;
+    animation-delay: 10s;
+}
+
+.cloud3::before {
+    width: 60px;
+    height: 50px;
+    top: -25px;
+    left: 20px;
+}
+
+.cloud3::after {
+    width: 70px;
+    height: 45px;
+    top: -20px;
+    right: 10px;
+}
+
+/* 云朵4 - 中大 */
+.cloud4 {
+    width: 160px;
+    height: 55px;
+    top: 15%;
+    left: -190px;
+    animation: float4 38s linear infinite;
+    animation-delay: 15s;
+}
+
+.cloud4::before {
+    width: 90px;
+    height: 70px;
+    top: -35px;
+    left: 28px;
+}
+
+.cloud4::after {
+    width: 110px;
+    height: 65px;
+    top: -28px;
+    right: 18px;
+}
+
+/* 云朵5 - 小 */
+.cloud5 {
+    width: 120px;
+    height: 45px;
+    top: 50%;
+    left: -170px;
+    animation: float5 33s linear infinite;
+    animation-delay: 20s;
+}
+
+.cloud5::before {
+    width: 70px;
+    height: 55px;
+    top: -28px;
+    left: 22px;
+}
+
+.cloud5::after {
+    width: 80px;
+    height: 50px;
+    top: -22px;
+    right: 12px;
+}
+
+/* 飘动动画 */
+@keyframes float1 {
+    0% {
+        left: -200px;
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        left: calc(100% + 200px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes float2 {
+    0% {
+        left: -180px;
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(15px);
+    }
+    100% {
+        left: calc(100% + 180px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes float3 {
+    0% {
+        left: -150px;
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        left: calc(100% + 150px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes float4 {
+    0% {
+        left: -190px;
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(12px);
+    }
+    100% {
+        left: calc(100% + 190px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes float5 {
+    0% {
+        left: -170px;
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+    100% {
+        left: calc(100% + 170px);
+        transform: translateY(0);
+    }
 }
 
 .hero-title {
@@ -203,8 +434,8 @@ header {
     letter-spacing: -0.03em;
     line-height: 1.1;
     position: relative;
-    z-index: 1;
-    text-shadow: 0 2px 30px rgba(255, 255, 255, 0.8);
+    z-index: 3;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
 }
 
 .hero-subtitle {
@@ -214,10 +445,10 @@ header {
     letter-spacing: 0.2em;
     font-style: italic;
     position: relative;
-    z-index: 1;
+    z-index: 3;
     opacity: 0.9;
     font-family: 'KaiTi', 'STKaiti', 'SimSun', serif;
-    text-shadow: 0 1px 20px rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
 }
 
 /* 主容器布局 - 移除侧边栏 */
