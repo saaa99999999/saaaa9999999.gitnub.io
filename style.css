@@ -77,7 +77,7 @@ header:hover::before {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.02em;
@@ -675,6 +675,9 @@ body::before {
 
 /* 导航栏样式 */
 .main-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     gap: 32px;
     align-items: center;
@@ -718,28 +721,39 @@ body::before {
 }
 
 #search-input {
-    width: 200px;
-    padding: 8px 36px 8px 12px;
+    width: 220px;
+    padding: 10px 40px 10px 16px;
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 24px;
     background: var(--bg-secondary);
     color: var(--text-primary);
     font-size: 0.875rem;
     transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 #search-input:focus {
     outline: none;
     border-color: var(--accent);
-    width: 240px;
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.15);
+}
+
+#search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
 }
 
 .search-icon {
     position: absolute;
-    right: 12px;
+    right: 14px;
     color: var(--text-secondary);
     pointer-events: none;
+    transition: color 0.3s;
+}
+
+#search-input:focus + .search-icon {
+    color: var(--accent);
 }
 
 /* 主容器布局 */
@@ -749,7 +763,7 @@ body::before {
 
 .content-wrapper {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr 280px;
     gap: 40px;
     align-items: start;
 }
@@ -947,11 +961,17 @@ body::before {
     }
     
     .main-nav {
-        gap: 20px;
+        position: static;
+        transform: none;
+    }
+    
+    .header-content {
+        flex-wrap: wrap;
+        gap: 16px;
     }
     
     #search-input {
-        width: 160px;
+        width: 180px;
     }
 }
 
