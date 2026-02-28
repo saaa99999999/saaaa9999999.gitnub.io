@@ -1,94 +1,151 @@
 .post-content {
-    background: #fff;
-    border-radius: 8px;
-    padding: 40px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .post-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    color: #2c3e50;
+    font-size: 2.75rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .post-content .post-meta {
-    color: #95a5a6;
-    font-size: 0.9rem;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.post-content .post-meta::before {
+    content: '📅';
+    font-size: 1.1rem;
 }
 
 .post-content p {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     line-height: 1.8;
-    color: #555;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
 }
 
 .post-content h2 {
-    font-size: 1.8rem;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    color: #2c3e50;
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .post-content h3 {
-    font-size: 1.4rem;
-    margin-top: 25px;
-    margin-bottom: 12px;
-    color: #34495e;
+    font-size: 1.5rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 .post-content code {
-    background: #f4f4f4;
-    padding: 2px 6px;
-    border-radius: 3px;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent);
+    padding: 3px 8px;
+    border-radius: 4px;
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .post-content pre {
-    background: #f4f4f4;
-    padding: 15px;
-    border-radius: 5px;
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
     overflow-x: auto;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
 }
 
 .post-content pre code {
     background: none;
     padding: 0;
+    border: none;
+    color: var(--text-secondary);
 }
 
 .post-content ul, .post-content ol {
     margin-left: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    color: var(--text-secondary);
 }
 
 .post-content li {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    line-height: 1.8;
 }
 
 .back-link {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .back-link a {
-    color: #3498db;
+    color: var(--accent);
     text-decoration: none;
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s;
+}
+
+.back-link a::before {
+    content: '←';
+    font-size: 1.2rem;
 }
 
 .back-link a:hover {
-    text-decoration: underline;
+    gap: 12px;
 }
 
 @media (max-width: 768px) {
     .post-content {
-        padding: 25px;
+        padding: 28px;
     }
     
     .post-content h1 {
         font-size: 2rem;
     }
+    
+    .post-content h2 {
+        font-size: 1.6rem;
+    }
+}
+
+
+/* 浅色主题 */
+body.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --border: rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme {
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
 }

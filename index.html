@@ -26,6 +26,22 @@
         </div>
     </footer>
 
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">🌙</button>
+
     <script src="script.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+        
+        // 加载保存的主题
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            document.querySelector('.theme-toggle').textContent = '🌞';
+        }
+    </script>
 </body>
 </html>
