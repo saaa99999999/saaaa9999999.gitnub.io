@@ -11,6 +11,9 @@ const posts = [
     }
 ];
 
+console.log('文章数量:', posts.length);
+console.log('文章数据:', posts);
+
 // 每页显示的文章数
 const postsPerPage = 5;
 let currentPage = 1;
