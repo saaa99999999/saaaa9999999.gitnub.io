@@ -5,25 +5,24 @@
 }
 
 :root {
-    --bg-primary: #fefefe;
-    --bg-secondary: #f9fafb;
-    --text-primary: #2d3748;
-    --text-secondary: #718096;
+    --bg-primary: #ffffff;
+    --bg-secondary: #fafafa;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a5568;
     --accent: #667eea;
     --accent-hover: #5a67d8;
     --card-bg: #ffffff;
-    --border: rgba(0, 0, 0, 0.04);
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.02);
+    --border: rgba(0, 0, 0, 0.06);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.04);
 }
 
 body {
     font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.8;
     color: var(--text-primary);
-    background: linear-gradient(180deg, #fefefe 0%, #f9fafb 100%);
-    background-attachment: fixed;
+    background: #ffffff;
     min-height: 100vh;
     letter-spacing: 0.02em;
 }
@@ -36,16 +35,16 @@ body {
 
 /* 头部样式 - 三栏布局 */
 header {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(30px) saturate(150%);
     -webkit-backdrop-filter: blur(30px) saturate(150%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     padding: 24px 0;
-    margin-bottom: 60px;
+    margin-bottom: 0;
     position: sticky;
     top: 0;
     z-index: 50;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -176,18 +175,14 @@ header {
     transform: scale(1.1);
 }
 
-/* Hero 区域 - 流动白云背景 */
+/* Hero 区域 - 真实白云背景 */
 .hero-section {
     text-align: center;
-    padding: 120px 0 100px;
-    margin-bottom: 80px;
+    padding: 140px 60px 120px;
+    margin: 0 -40px 80px -40px;
     background: 
-        linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(167, 139, 250, 0.05)),
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><filter id="blur"><feGaussianBlur stdDeviation="20"/></filter></defs><g filter="url(%23blur)"><ellipse cx="200" cy="150" rx="180" ry="80" fill="%23ffffff" opacity="0.6"><animate attributeName="cx" values="200;250;200" dur="20s" repeatCount="indefinite"/></ellipse><ellipse cx="600" cy="200" rx="200" ry="90" fill="%23ffffff" opacity="0.5"><animate attributeName="cx" values="600;550;600" dur="25s" repeatCount="indefinite"/></ellipse><ellipse cx="1000" cy="180" rx="160" ry="70" fill="%23ffffff" opacity="0.6"><animate attributeName="cx" values="1000;1050;1000" dur="22s" repeatCount="indefinite"/></ellipse><ellipse cx="400" cy="250" rx="140" ry="60" fill="%23ffffff" opacity="0.4"><animate attributeName="cy" values="250;230;250" dur="18s" repeatCount="indefinite"/></ellipse><ellipse cx="800" cy="120" rx="170" ry="75" fill="%23ffffff" opacity="0.5"><animate attributeName="cy" values="120;140;120" dur="23s" repeatCount="indefinite"/></ellipse></g></svg>');
-    background-size: cover, 100% 100%;
-    background-position: center;
-    border-radius: 32px;
-    border: 1px solid rgba(0, 0, 0, 0.02);
+        linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.85) 100%),
+        url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=1920&q=95') center/cover no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -196,35 +191,33 @@ header {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+    background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
     pointer-events: none;
 }
 
 .hero-title {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    background: linear-gradient(135deg, #2d3748 0%, #667eea 50%, #a78bfa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 32px;
+    color: #1a1a1a;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
     position: relative;
     z-index: 1;
-    text-shadow: 0 2px 20px rgba(102, 126, 234, 0.1);
+    text-shadow: 0 2px 30px rgba(255, 255, 255, 0.8);
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
+    font-size: 1.75rem;
+    color: #2d3748;
     font-weight: 300;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     font-style: italic;
     position: relative;
     z-index: 1;
-    opacity: 0.85;
+    opacity: 0.9;
     font-family: 'KaiTi', 'STKaiti', 'SimSun', serif;
+    text-shadow: 0 1px 20px rgba(255, 255, 255, 0.9);
 }
 
 /* 主容器布局 - 移除侧边栏 */
@@ -243,14 +236,14 @@ header {
 /* 文章卡片 */
 .post-card {
     background: var(--card-bg);
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
     padding: 40px;
     margin-bottom: 32px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .post-card::before {
@@ -267,8 +260,8 @@ header {
 
 .post-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.08);
-    border-color: rgba(102, 126, 234, 0.1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    border-color: rgba(102, 126, 234, 0.2);
 }
 
 .post-card:hover::before {
@@ -613,12 +606,17 @@ footer {
         width: 200px;
     }
     
+    .hero-section {
+        padding: 120px 40px 100px;
+        margin: 0 -40px 70px -40px;
+    }
+    
     .hero-title {
-        font-size: 3.5rem;
+        font-size: 4.2rem;
     }
     
     .hero-subtitle {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
 }
 
@@ -643,15 +641,16 @@ footer {
     }
     
     .hero-section {
-        padding: 80px 20px 70px;
+        padding: 100px 30px 80px;
+        margin: 0 -20px 60px -20px;
     }
     
     .hero-title {
-        font-size: 2.8rem;
+        font-size: 3.2rem;
     }
     
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
     
     .post-card {
