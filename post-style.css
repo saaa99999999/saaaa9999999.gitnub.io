@@ -89,7 +89,7 @@ body {
 .post-content p {
     margin-bottom: 28px;
     line-height: 1.8;
-    color: var(--text-secondary);
+    color: #2d3748;
     font-size: 1.0625rem;
 }
 
@@ -124,32 +124,38 @@ body {
 }
 
 .post-content pre {
-    background: var(--bg-secondary);
+    background: #2d3748;
     padding: 24px;
     border-radius: 12px;
     overflow-x: auto;
     margin-bottom: 28px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid #1a202c;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .post-content pre code {
     background: none;
     padding: 0;
     border: none;
-    color: var(--text-secondary);
+    color: #e2e8f0;
     font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .post-content ul, .post-content ol {
     margin-left: 30px;
     margin-bottom: 24px;
-    color: var(--text-secondary);
+    color: #2d3748;
 }
 
 .post-content li {
     margin-bottom: 12px;
     line-height: 1.8;
+}
+
+.post-content li strong {
+    color: #1a202c;
 }
 
 .back-link {

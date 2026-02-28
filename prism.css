@@ -1,7 +1,7 @@
-/* PrismJS 代码高亮主题 - 简洁风格 */
+/* PrismJS 代码高亮主题 - VS Code Dark+ 风格 */
 code[class*="language-"],
 pre[class*="language-"] {
-    color: #24292e;
+    color: #d4d4d4;
     background: none;
     font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
     font-size: 0.9em;
@@ -19,14 +19,15 @@ pre[class*="language-"] {
     padding: 1.5em;
     margin: 1.5em 0;
     overflow: auto;
-    border-radius: 8px;
-    background: #f6f8fa;
-    border: 1px solid #e1e4e8;
+    border-radius: 12px;
+    background: #2d3748;
+    border: 1px solid #1a202c;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-    background: #f6f8fa;
+    background: #2d3748;
 }
 
 :not(pre) > code[class*="language-"] {
@@ -35,103 +36,185 @@ pre[class*="language-"] {
     white-space: normal;
 }
 
+/* 行号 */
+.line-numbers .line-numbers-rows {
+    border-right: 1px solid #4a5568;
+}
+
+.line-numbers-rows > span:before {
+    color: #718096;
+}
+
+/* 注释 */
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-    color: #6a737d;
+    color: #6a9955;
     font-style: italic;
 }
 
+/* 标点符号 */
+.token.punctuation {
+    color: #d4d4d4;
+}
+
+/* 命名空间 */
 .token.namespace {
     opacity: 0.7;
 }
 
+/* 属性、标签、布尔值、数字、常量、符号、删除 */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #b5cea8;
+}
+
+/* 选择器、属性名、字符串、字符、内置、插入 */
+.token.selector,
+.token.attr-name,
 .token.string,
-.token.attr-value {
-    color: #032f62;
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #ce9178;
 }
 
-.token.punctuation,
-.token.operator {
-    color: #24292e;
-}
-
+/* 操作符、实体、URL */
+.token.operator,
 .token.entity,
 .token.url,
-.token.symbol,
-.token.number,
-.token.boolean,
-.token.variable,
-.token.constant,
-.token.property,
+.language-css .token.string,
+.style .token.string {
+    color: #d4d4d4;
+}
+
+/* 关键字 */
+.token.keyword {
+    color: #c586c0;
+}
+
+/* 函数、类名 */
+.token.function,
+.token.class-name {
+    color: #dcdcaa;
+}
+
+/* 正则表达式 */
 .token.regex,
-.token.inserted {
-    color: #005cc5;
-}
-
-.token.atrule,
-.token.keyword,
-.token.attr-name,
-.language-autohotkey .token.selector {
-    color: #d73a49;
-}
-
-.token.function,
-.token.deleted,
-.language-autohotkey .token.tag {
-    color: #6f42c1;
-}
-
-.token.tag,
-.token.selector,
-.language-autohotkey .token.keyword {
-    color: #22863a;
-}
-
 .token.important,
-.token.function,
+.token.variable {
+    color: #d16969;
+}
+
+/* 重要、粗体 */
+.token.important,
 .token.bold {
     font-weight: bold;
 }
 
+/* 斜体 */
 .token.italic {
     font-style: italic;
 }
 
-/* 行号 */
-pre[class*="language-"].line-numbers {
-    position: relative;
-    padding-left: 3.8em;
-    counter-reset: linenumber;
+/* 实体 */
+.token.entity {
+    cursor: help;
 }
 
-pre[class*="language-"].line-numbers > code {
-    position: relative;
-    white-space: inherit;
+/* Python 特定 */
+.language-python .token.keyword {
+    color: #569cd6;
 }
 
-.line-numbers .line-numbers-rows {
+.language-python .token.function {
+    color: #dcdcaa;
+}
+
+.language-python .token.string {
+    color: #ce9178;
+}
+
+.language-python .token.decorator {
+    color: #c586c0;
+}
+
+/* C/C++ 特定 */
+.language-c .token.keyword,
+.language-cpp .token.keyword {
+    color: #569cd6;
+}
+
+.language-c .token.function,
+.language-cpp .token.function {
+    color: #dcdcaa;
+}
+
+.language-c .token.macro,
+.language-cpp .token.macro {
+    color: #c586c0;
+}
+
+.language-c .token.directive,
+.language-cpp .token.directive {
+    color: #c586c0;
+}
+
+/* JavaScript/TypeScript 特定 */
+.language-javascript .token.keyword,
+.language-typescript .token.keyword {
+    color: #569cd6;
+}
+
+.language-javascript .token.function,
+.language-typescript .token.function {
+    color: #dcdcaa;
+}
+
+.language-javascript .token.template-string,
+.language-typescript .token.template-string {
+    color: #ce9178;
+}
+
+/* 行高亮 */
+pre[data-line] {
+    position: relative;
+    padding-left: 3em;
+}
+
+.line-highlight {
     position: absolute;
+    left: 0;
+    right: 0;
+    padding: inherit 0;
+    margin-top: 1em;
+    background: rgba(255, 255, 255, 0.08);
     pointer-events: none;
-    top: 0;
-    font-size: 100%;
-    left: -3.8em;
-    width: 3em;
-    letter-spacing: -1px;
-    border-right: 1px solid #e1e4e8;
-    user-select: none;
+    line-height: inherit;
+    white-space: pre;
 }
 
-.line-numbers-rows > span {
-    display: block;
-    counter-increment: linenumber;
+/* 滚动条美化 */
+pre[class*="language-"]::-webkit-scrollbar {
+    height: 8px;
 }
 
-.line-numbers-rows > span:before {
-    content: counter(linenumber);
-    color: #999;
-    display: block;
-    padding-right: 0.8em;
-    text-align: right;
+pre[class*="language-"]::-webkit-scrollbar-track {
+    background: #1a202c;
+    border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+    background: #718096;
 }
