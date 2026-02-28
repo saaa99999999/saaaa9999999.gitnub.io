@@ -210,6 +210,8 @@ header {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    image-rendering: high-quality;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 /* 半透明遮罩层 */

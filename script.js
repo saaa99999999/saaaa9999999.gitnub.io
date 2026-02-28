@@ -103,6 +103,16 @@ function changePage(page) {
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', loadPosts);
 
+// 确保视频自动播放
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('.hero-video');
+    if (video) {
+        video.play().catch(err => {
+            console.log('视频自动播放失败:', err);
+        });
+    }
+});
+
 
 // 更新侧边栏
 function updateSidebar() {
