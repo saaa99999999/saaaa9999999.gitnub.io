@@ -106,46 +106,7 @@ document.addEventListener('DOMContentLoaded', loadPosts);
 
 // 更新侧边栏
 function updateSidebar() {
-    // 更新标签云
-    const allTags = new Set();
-    posts.forEach(post => {
-        if (post.tags) {
-            post.tags.forEach(tag => allTags.add(tag));
-        }
-    });
-    
-    const tagCloud = document.getElementById('tag-cloud');
-    if (tagCloud && allTags.size > 0) {
-        tagCloud.innerHTML = Array.from(allTags).map(tag => 
-            `<span class="tag">${tag}</span>`
-        ).join('');
-    }
-    
-    // 更新最近文章
-    const recentPosts = document.getElementById('recent-posts');
-    if (recentPosts) {
-        const recent = posts.slice(0, 5);
-        if (recent.length > 0) {
-            recentPosts.innerHTML = recent.map(post => `
-                <div class="recent-post-item">
-                    <span class="recent-post-date">${post.date.substring(5)}</span>
-                    <a href="post.html?id=${post.id}" class="recent-post-title">${post.title}</a>
-                </div>
-            `).join('');
-        } else {
-            recentPosts.innerHTML = '<p style="color: var(--text-secondary); font-size: 0.875rem;">暂无文章</p>';
-        }
-    }
-    
-    // 更新统计信息
-    document.getElementById('total-posts').textContent = posts.length;
-    document.getElementById('total-tags').textContent = allTags.size;
-    
-    // 计算运行天数
-    const startDate = new Date('2026-02-28');
-    const today = new Date();
-    const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-    document.getElementById('running-days').textContent = days;
+    // 侧边栏已移除，保留函数以防其他地方调用
 }
 
 // 搜索功能

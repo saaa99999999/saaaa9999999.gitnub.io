@@ -176,48 +176,68 @@ header {
     transform: scale(1.1);
 }
 
-/* Hero 区域 */
+/* Hero 区域 - 流动白云背景 */
 .hero-section {
     text-align: center;
-    padding: 80px 0;
-    margin-bottom: 60px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(167, 139, 250, 0.03));
-    border-radius: 24px;
+    padding: 120px 0 100px;
+    margin-bottom: 80px;
+    background: 
+        linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(167, 139, 250, 0.05)),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><filter id="blur"><feGaussianBlur stdDeviation="20"/></filter></defs><g filter="url(%23blur)"><ellipse cx="200" cy="150" rx="180" ry="80" fill="%23ffffff" opacity="0.6"><animate attributeName="cx" values="200;250;200" dur="20s" repeatCount="indefinite"/></ellipse><ellipse cx="600" cy="200" rx="200" ry="90" fill="%23ffffff" opacity="0.5"><animate attributeName="cx" values="600;550;600" dur="25s" repeatCount="indefinite"/></ellipse><ellipse cx="1000" cy="180" rx="160" ry="70" fill="%23ffffff" opacity="0.6"><animate attributeName="cx" values="1000;1050;1000" dur="22s" repeatCount="indefinite"/></ellipse><ellipse cx="400" cy="250" rx="140" ry="60" fill="%23ffffff" opacity="0.4"><animate attributeName="cy" values="250;230;250" dur="18s" repeatCount="indefinite"/></ellipse><ellipse cx="800" cy="120" rx="170" ry="75" fill="%23ffffff" opacity="0.5"><animate attributeName="cy" values="120;140;120" dur="23s" repeatCount="indefinite"/></ellipse></g></svg>');
+    background-size: cover, 100% 100%;
+    background-position: center;
+    border-radius: 32px;
     border: 1px solid rgba(0, 0, 0, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+    pointer-events: none;
 }
 
 .hero-title {
-    font-size: 2.75rem;
-    font-weight: 600;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #2d3748 0%, #667eea 50%, #a78bfa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 20px rgba(102, 126, 234, 0.1);
 }
 
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: var(--text-secondary);
-    font-weight: 400;
-    letter-spacing: 0.05em;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+    opacity: 0.85;
+    font-family: 'KaiTi', 'STKaiti', 'SimSun', serif;
 }
 
-/* 主容器布局 */
+/* 主容器布局 - 移除侧边栏 */
 .main-container {
-    max-width: 1400px;
+    max-width: 1000px;
 }
 
 .content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 50px;
-    align-items: start;
+    display: block;
 }
 
 .main-content {
-    min-width: 0;
+    width: 100%;
 }
 
 /* 文章卡片 */
@@ -579,15 +599,6 @@ footer {
 
 /* 响应式 */
 @media (max-width: 1024px) {
-    .content-wrapper {
-        grid-template-columns: 1fr;
-    }
-    
-    .sidebar {
-        position: relative;
-        top: 0;
-    }
-    
     .header-content {
         grid-template-columns: auto 1fr auto;
         gap: 24px;
@@ -600,6 +611,14 @@ footer {
     
     #search-input {
         width: 200px;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
     }
 }
 
@@ -624,11 +643,15 @@ footer {
     }
     
     .hero-section {
-        padding: 60px 20px;
+        padding: 80px 20px 70px;
     }
     
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
     }
     
     .post-card {
