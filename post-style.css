@@ -191,39 +191,13 @@ body {
     }
 }
 
-/* 深色主题 */
-body.dark-theme {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --border: rgba(148, 163, 184, 0.1);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-theme {
-    background-image: 
-        linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(30, 41, 59, 0.4) 100%),
-        radial-gradient(ellipse at top left, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
-}
-
-body.dark-theme .post-content {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-}
-
-
 /* 头部样式 */
 header {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid var(--border);
-    padding: 24px 0;
+    padding: 20px 0;
     margin-bottom: 60px;
     position: sticky;
     top: 0;
@@ -245,58 +219,39 @@ header::before {
 }
 
 header:hover::before {
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .header-content {
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
 }
 
 .site-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    padding: 8px 16px;
-    background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(139, 92, 246, 0.1));
-    border-radius: 12px;
-    border: 1px solid rgba(0, 113, 227, 0.2);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
     transition: all 0.3s;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
-}
-
-.site-logo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0, 113, 227, 0.2), rgba(139, 92, 246, 0.2));
-    opacity: 0;
-    transition: opacity 0.3s;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .site-logo:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
-}
-
-.site-logo:hover::before {
-    opacity: 1;
+    transform: translateY(-1px);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-main {
-    flex: 1;
+    text-align: right;
 }
 
 .header-main h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 4px;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -304,7 +259,7 @@ header:hover::before {
 
 .header-main .subtitle {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     font-weight: 400;
     letter-spacing: 0.01em;
     opacity: 0.8;
@@ -353,26 +308,29 @@ footer {
 
 @media (max-width: 768px) {
     .header-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .header-main {
+        text-align: right;
     }
     
     .header-main h1 {
-        font-size: 1.75rem;
+        font-size: 1.25rem;
     }
     
     .header-main .subtitle {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
     
     .site-logo {
-        font-size: 1.25rem;
-        padding: 6px 12px;
+        font-size: 1.5rem;
     }
     
     header {
-        padding: 20px 0;
+        padding: 16px 0;
         margin-bottom: 40px;
     }
 }
