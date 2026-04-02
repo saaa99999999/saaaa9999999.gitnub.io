@@ -1,6 +1,15 @@
 // 文章数据
 const posts = [
     {
+        id: 2,
+        title: '星盟2026招新赛re部分wp',
+        date: '2026-03-01',
+        excerpt: '星盟2026招新赛逆向题目完整writeup，包含ez_uds、Illusion、hajimi、移动的秘密、Hulua、ezFinger、Disguise、ezLanguage等多道题目的详细解题过程。',
+        tags: ['逆向工程', 'CTF', 'Writeup', '星盟2026'],
+        readTime: '20 分钟阅读',
+        url: 'posts/post-2.html'
+    },
+    {
         id: 1,
         title: '第一篇博客 记iot逆向入门',
         date: '2026-02-28',

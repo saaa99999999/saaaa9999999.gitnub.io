@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星盟2026招新赛re部分wp - saaa9999's Blog</title>
+    <link rel="icon" type="image/jpeg" href="../avatar.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../post-style.css">
+    <link rel="stylesheet" href="../prism.css">
+</head>
+<body>
+    <header class="post-page-header">
+        <div class="header-content">
+            <div class="site-logo">
+                <img src="../avatar.jpg" alt="saaa9999">
+                <span>saaa9999</span>
+            </div>
+            <nav class="main-nav">
+                <a href="../index.html" class="nav-link">首页</a>
+            </nav>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜索文章...">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="post-page-container">
+        <article class="post-content">
+            <header class="post-header">
+                <h1 class="post-title">星盟2026招新赛re部分wp</h1>
+                <div class="post-meta">
+                    <span class="meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        2026-03-01
+                    </span>
+                    <span class="meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        20 分钟阅读
+                    </span>
+                </div>
+                <div class="post-tags">
+                    <span class="tag">逆向工程</span>
+                    <span class="tag">CTF</span>
+                    <span class="tag">Writeup</span>
+                    <span class="tag">星盟2026</span>
+                </div>
+            </header>
+
+            <div class="post-body">
+                <h2>ez_uds</h2>
+                
+                <p>看算法很简单，就是随机数生成一个seed，然后seed经过一个算法异或移位啥的求出key，key发到容器获得flag。再看uds的协议，得知27是安全访问，01申请seed，02发key。所以写一个交互脚本</p>
+
+                <pre><code class="language-python">import socket
+import time
+
+def calculate_key(seed):
+    key = seed ^ 0xA5A5A5A5
+    key = ((key << 3) | (key >> 29)) & 0xFFFFFFFF
+    key = (key + 0x12345678) & 0xFFFFFFFF
+    return key
+
+s = socket.socket()
+s.connect(("nc1.ctfplus.cn", 36105))
+time.sleep(1)
+
+s.recv(4096)
+s.sendall(b"27 01\n")
+time.sleep(1)
+
+res = s.recv(1024).decode()
+a = res.split()
+seed = int(a[2] + a[3] + a[4] + a[5], 16)
+
+key = calculate_key(seed)
+k = hex(key)[2:].zfill(8).upper()
+ans = "27 02 " + k[0:2] + " " + k[2:4] + " " + k[4:6] + " " + k[6:8] + "\n"
+
+s.sendall(ans.encode())
+time.sleep(1)
+print(s.recv(4096).decode())</code></pre>
+
+                <p>得到flag。</p>
+
+                <h2>Illusion</h2>
+                
+                <p>拖进ida中看main函数逻辑。读取输入不超过25字节。然后检查格式是xmctf{}。中间再检查一下长度。然后就是给出一个密文记得小端绪，出来是0xD5, 0x0A, 0xFB, 0x84, 0x0A, 0x8F, 0x2C, 0xE7, 0x27, 0xD9, 0x56, 0x3E, 0xF3, 0x6C, 0x29, 0xAB, 0x19, 0x54。接下来应该就是这个18字节的密文sub_140001440经过这个函数与输入的{}中的18个字节做比较的。再深入看这个sub_140001440，说实话加密算法都不想分析，让ai看出是经典rc4，密钥是nev_gona_give_up。厨子里出来nev_gona_letydown。得到flag是 xmctf{nev_gona_letydown}。靠，发现是假的</p>
+
+                <p>看字符串发现有个real world 跟过去找到 sub_140001000，是个tls。hook了MessageBoxA api改为了跳转进真正的主逻辑。这里有个反调试不过没关系，返回去看终于弄懂了，输入假的flag不会触发弹窗api，进入不了这个主逻辑。sub_1400010F0才是真正的主逻辑，是个aes，解密找到密钥123412341234123412341234AES!，密文。得出真正flag xmctf{R3a1_w0rld_M47ters}</p>
+
+                <h2>hajimi</h2>
+                
+                <p>看不懂，搜了一下导入的模块，好像是和神经网络深度学习有关。让ai解释了一下，逻辑感觉就是输入一个只有1到4的16字节字符串进入了一个黑盒。那应该就是要逆challenge.pkl.zst这个东西。但我又不会，看着好麻烦，尝试爆破吧，ai提示1到4 16个是给4乘4数独（我倒是没看出来），反正尝试爆破最优。补好环境，写个爆破脚本，塞进模型，得出 1234341221434321。然后得出flag是 xmctf{b0a0d1edc0fb5b75770a5dcbe7b0d4fb08e42fd281a94ee67b405e36056f1df1}。（这题思路基本都是ai给）总和起来的脚本</p>
+
+                <pre><code class="language-python">import itertools
+import sys
+import importlib.util
+import os
+import hashlib
+
+os.environ['JAX_PLATFORMS'] = 'cpu'
+
+spec = importlib.util.spec_from_file_location('main_mod', '__main__.py')
+main_mod = importlib.util.module_from_spec(spec)
+sys.modules['main_mod'] = main_mod
+spec.loader.exec_module(main_mod)
+
+def check_grid(s):
+    t = [list(s[i:i+4]) for i in range(0, 16, 4)]
+    for r in t:
+        if len(set(r)) != 4:
+            return False
+    for c in range(4):
+        if len(set([t[i][c] for i in range(4)])) != 4:
+            return False
+    for i in range(0, 4, 2):
+        for j in range(0, 4, 2):
+            box = [t[i][j], t[i][j+1], t[i+1][j], t[i+1][j+1]]
+            if len(set(box)) != 4:
+                return False
+    return True
+
+all_perm = list(itertools.permutations('1234'))
+good_ones = []
+
+for r1 in all_perm:
+    for r2 in all_perm:
+        for r3 in all_perm:
+            for r4 in all_perm:
+                s = "".join(r1+r2+r3+r4)
+                if check_grid(s):
+                    good_ones.append(s)
+
+my_model = main_mod.load_model('challenge.pkl.zst')
+
+for g in good_ones:
+    ans = main_mod.decode_output(my_model.apply(['BOS'] + list(g)))
+    if "wrong" not in ans.lower() and "grid" not in ans.lower() or len(ans) > 5:
+        h = hashlib.sha256(g.encode('utf8')).hexdigest()
+        print("xmctf{" + h + "}")
+        break</code></pre>
+
+                <h2>移动的秘密</h2>
+                
+                <p>进入main函数，有个ptrace作反调试，不过这题应该不用动调。继续看要求目标输入29字节字符串，然后开始遍历右移。这里v14应该是3080前13个加3090组成的预期移位后的结果，[60, 54, 49, 58, 51, 61, 59, 50, 54, 49, 24, 54, 50, 47, 25, 47, 56, 55, 54, 48, 57, 24, 57, 47, 24, 24, 25, 25, 62]这样但这样移位会导致缺少一位。再看下面应该还会多一层检验，懒得看算法，ai看出来是哈希检验，3060应该是它的魔数。3070是哈希值作为预期结果。现在理清可以写爆破脚本了</p>
+
+                <pre><code class="language-python">import hashlib
+import itertools
+
+def solve():
+    part1 = [60, 54, 49, 58, 51, 61, 59, 50, 54, 49, 24, 54, 50]
+    part2 = [47, 25, 47, 56, 55, 54, 48, 57, 24, 57, 47, 24, 24, 25, 25, 62]
+    targets = part1 + part2
+    target_md5 = "3a22c098710019b31c328a861429d3ad"
+    
+    possible_chars = []
+    for t in targets:
+        c1 = t * 2
+        c2 = t * 2 + 1
+        valid_chars = []
+        if 32 <= c1 <= 126:
+            valid_chars.append(chr(c1))
+        if 32 <= c2 <= 126:
+            valid_chars.append(chr(c2))
+        possible_chars.append(valid_chars)
+    
+    count = 0
+    for combo in itertools.product(*possible_chars):
+        flag = "".join(combo)
+        h = hashlib.md5(flag.encode()).hexdigest()
+        if h == target_md5:
+            print("find flag: " + flag)
+            return
+        count += 1
+        if count % 10000000 == 0:
+            print("counting...", count)
+
+if __name__ == '__main__':
+    solve()</code></pre>
+
+                <p>得出flag xmctf{welc0me_2_polar1s_1022}</p>
+
+                <h2>Hulua</h2>
+                
+                <p>字符串引用找到main在sub_14000157F，看一下,依旧没咋看懂。看题目中有lua，字符串里还看到lua的版本，应该是之前听过的lua逆向。上网搜了两篇文章，大概弄懂了。应该是c中内嵌了lua，主逻辑先获取用户输入，然后创建v4作为lua state，并将输入赋给全局变量 user_input,从而顺利传给lua。那这题目的就是找到真正的主逻辑，也就是lua脚本，那就应该dump出lua字节码luac文件。继续分析伪代码，v3 = sub_140016310(v4, &dword_140033000, dword_1400333DC, "check", 0);这个调用的是luaL_loadbuffer这个lua api，那就能知道lua脚本就是0x140033000从这开始的一大串，发现还被sub_1400014A4函数引用，跟过去发现被异或加密了一下。写个idapython脚本提取一下</p>
+
+                <pre><code class="language-python">import idc
+
+def dump_payload():
+    start_addr = 0x140033000
+    size_addr = 0x1400333DC
+    key = b"hulua"
+    
+    script_size = idc.get_wide_dword(size_addr)
+    raw_data = idc.get_bytes(start_addr, script_size)
+    
+    if not raw_data:
+        print("[-] Failed to read bytes.")
+        return
+    
+    out_data = bytearray()
+    for i in range(script_size):
+        out_data.append(raw_data[i] ^ key[i % len(key)])
+    
+    out_path = r"D:\challenge\6\check_decrypted.luac"
+    with open(out_path, "wb") as f:
+        f.write(out_data)
+    
+    print(f"[+] Dumped to {out_path}")
+    print(f"[+] Header: {out_data[:4]}")
+
+dump_payload()</code></pre>
+
+                <p>出来之后再异或解密一下得到luac文件，用unluac一键反编译报错了，看信息好像是加了混淆，问了下ai只能用unluac --disassemble提取一下常量来看看，发现两行特殊的hex，一个是"78 6D 63 74 66 32 30 32 36"转为字符串是xmctf2026感觉应该是key之类的，另一行"8B 8B 77 BE 68 61 86 68 E5 63 EE 84 35 6F 58 C8 51 0F 6E 94 70 E7 26 90 B6 75 EC 28 AF 14 E2 E3"转不出来，推测是密文吧。再看下面有256和255感觉应该是个rc4，然后还有个102不知道什么意思，猜着可能是异或，放在厨子里一算 xmctf{lu4t1c_r3v3rs3_ch4ll3ng3!}，猜对了，就没再分析。</p>
+
+                <h2>ezFinger</h2>
+                
+                <p>这题就是纯ai ，没接触过太多。finger插件也分析不出来。感觉思路应该就是去查STM32F429ZI的芯片手册啥的，再去找那些标准库中对应的函数？</p>
+
+                <h2>Disguise</h2>
+                
+                <p>拖进ida看字符串发现主逻辑不在那，而且还存在一堆没用的花指令和堆栈不平衡。再看导入表也没有几个api，应该是个壳。看到VirtualAlloc应该就是壳运行后将主程序解密用它来申请内存空间，所以追踪这个api，动调并dump出内存中的主程序好了。放到xdbg里面，发现f9两下直接不动了。应该是有啥反调试，直接scyllahide插件一把梭，去了反调试继续追踪,先bp VirtualAlloc下个断点，然后执行完这个api，找到分配内存的地址。跟过去下个硬件断点，运行完这个api，发现该处内存出现了pe头，最后把这个主程序dump出来。得到一个bin文件，还不能直接丢到ida里，先修复一下pe结构。最后终于得到了脱壳后的程序，字符串引用找到主逻辑。先要输入一个48字节的字符串，看到sub_411401应该是一个加密函数跟进去，发现是一个vm，再看sub_4154A0应该就是一个分发器。有点复杂，直接丢给ai看出这里实现的是魔改的sm4。写个脚本总结下结束</p>
+
+                <h2>ezLanguage</h2>
+                
+                <p>拖进die一看有壳，32位，在x32dbg中用esp定理找到oep在用Scylla dump脱壳重建iat表。然后在拖到ida中，发现有一大堆混淆花指令，写个ida python脚本，批量去除一下。</p>
+
+                <p>然后从字符串引用找到主逻辑sub_40118F 看着逻辑好乱，还有一堆sub_401714，像是vm的分发器，查了一下好像是易语言的引擎吧。继续分析这段伪代码，大体上只能看懂进行一堆运算，最后与+bx 中间的核心算法为对于第 i 个字符 c (i 始于 1)： 索引1: (c / 17.0 + i - 1) % 34.0 + 1 索引2: 35.0 - ((c % 17.0 + i) % 34.0) (遇 35 则置 1) 总之 就是商和余数分别附加在i上。 最后因为前后字符之间无关可以通过爆破得出flag def solve(): cipher = "</p>
+
+                <h2>总结</h2>
+                
+                <p>这次星盟2026招新赛的逆向题目涵盖了多个方面的技术和工具使用。</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 saaa9999. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../prism.js"></script>
+    <script src="../post-script.js"></script>
+</body>
+</html>
