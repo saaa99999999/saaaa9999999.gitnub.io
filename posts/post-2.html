@@ -234,15 +234,221 @@ dump_payload()</code></pre>
                 
                 <p>拖进ida看字符串发现主逻辑不在那，而且还存在一堆没用的花指令和堆栈不平衡。再看导入表也没有几个api，应该是个壳。看到VirtualAlloc应该就是壳运行后将主程序解密用它来申请内存空间，所以追踪这个api，动调并dump出内存中的主程序好了。放到xdbg里面，发现f9两下直接不动了。应该是有啥反调试，直接scyllahide插件一把梭，去了反调试继续追踪,先bp VirtualAlloc下个断点，然后执行完这个api，找到分配内存的地址。跟过去下个硬件断点，运行完这个api，发现该处内存出现了pe头，最后把这个主程序dump出来。得到一个bin文件，还不能直接丢到ida里，先修复一下pe结构。最后终于得到了脱壳后的程序，字符串引用找到主逻辑。先要输入一个48字节的字符串，看到sub_411401应该是一个加密函数跟进去，发现是一个vm，再看sub_4154A0应该就是一个分发器。有点复杂，直接丢给ai看出这里实现的是魔改的sm4。写个脚本总结下结束</p>
 
+                <pre><code class="language-python">import pefile
+import struct
+
+def read_dwords(data, offset, count):
+    return list(struct.unpack(f'<{count}I', data[offset:offset+count*4]))
+
+def read_bytes(data, offset, count):
+    return list(data[offset:offset+count])
+
+def disassemble_vm(data, base_addr, text_offset=0):
+    vm_code_offset = 0x422020 - base_addr
+    words = read_dwords(data, vm_code_offset, 2500)
+    print("-" * 50)
+    print("[+] 正在基于 Opcode 分析并输出前 30 条 VM 指令反汇编...")
+    print("-" * 50)
+    pc = 0
+    instructions_decoded = 0
+    while pc < len(words) and instructions_decoded < 30:
+        opcode = words[pc]
+        op_name = f"OP_{opcode}"
+        length = 1
+        disasm = ""
+        if opcode == 0:
+            disasm = "VM_INIT ()"
+            length = 1
+        elif opcode == 1:
+            r1, imm = words[pc+1], words[pc+2]
+            disasm = f"ADD R{r1}, {hex(imm)}"
+            length = 3
+        elif opcode == 2:
+            r1, r2 = words[pc+1], words[pc+2]
+            disasm = f"XOR R{r1}, R{r2}"
+            length = 3
+        elif opcode == 3:
+            r1, r2 = words[pc+1], words[pc+2]
+            disasm = f"SUB R{r1}, R{r2}"
+            length = 3
+        elif opcode == 4:
+            r1, r2 = words[pc+1], words[pc+2]
+            disasm = f"MOV R{r1}, R{r2}"
+            length = 3
+        elif opcode == 6:
+            r1, imm = words[pc+1], words[pc+2]
+            disasm = f"SHL R{r1}, {hex(imm)}"
+            length = 3
+        elif opcode == 7:
+            r1, imm = words[pc+1], words[pc+2]
+            disasm = f"SHR R{r1}, {hex(imm)}"
+            length = 3
+        elif opcode == 9:
+            disasm = "JNZ TARGET"
+            length = 1
+        elif opcode == 10:
+            disasm = "JZ TARGET"
+            length = 1
+        elif opcode == 11:
+            r1, imm = words[pc+1], words[pc+2]
+            disasm = f"CMP R{r1}, {hex(imm)}"
+            length = 3
+        elif opcode == 14:
+            r1, imm = words[pc+1], words[pc+2]
+            disasm = f"AND R{r1}, {hex(imm)}"
+            length = 3
+        elif opcode == 15:
+            r1, r2 = words[pc+1], words[pc+2]
+            disasm = f"OR R{r1}, R{r2}"
+            length = 3
+        elif opcode == 16:
+            disasm = "VM_EXIT ()"
+            length = 1
+        elif opcode == 17:
+            r1, r2, r3 = words[pc+1], words[pc+2], words[pc+3]
+            disasm = f"LDR R{r1}, [R{r2} + R{r3}*4]"
+            length = 4
+        elif opcode == 18:
+            r1, r2, r3 = words[pc+1], words[pc+2], words[pc+3]
+            disasm = f"STR [R{r1} + R{r2}*4], R{r3}"
+            length = 4
+        elif opcode == 19:
+            disasm = "NOP"
+            length = 2
+        elif opcode == 26:
+            disasm = "SET_TARGET"
+            length = 1
+        else:
+            disasm = f"UNKNOWN ({opcode})"
+            break
+        print(f"[{pc:04d}] {op_name:<10} : {disasm}")
+        pc += length
+        instructions_decoded += 1
+    print("-" * 50)
+    print("[+] VM 指令解析可知：大量 SHL, SHR, XOR 是典型的密码学移位操作组合。")
+
+def decrypt_sm4(data, base_addr):
+    SBOX = read_dwords(data, 0x41ec30 - base_addr, 256)
+    FK_CONST = read_dwords(data, 0x422010 - base_addr, 4)
+    CK_CONST = read_dwords(data, 0x41f030 - base_addr, 32)
+    CT = read_dwords(data, 0x421018 - base_addr, 12)
+    print(f"\n[+] 成功提取 SBox (前4个): {SBOX[:4]} ...")
+    print(f"[+] 成功提取 FK: {[hex(x) for x in FK_CONST]}")
+    print(f"[+] 成功提取 目标密文 CT: {[hex(x) for x in CT]}")
+
+    def L_prime(b):
+        return b ^ ((b << 13) | (b >> 19)) & 0xFFFFFFFF ^ ((b << 23) | (b >> 9)) & 0xFFFFFFFF
+
+    def L(b):
+        return b ^ ((b << 2) | (b >> 30)) & 0xFFFFFFFF ^ ((b << 10) | (b >> 22)) & 0xFFFFFFFF ^ \
+               ((b << 18) | (b >> 14)) & 0xFFFFFFFF ^ ((b << 24) | (b >> 8)) & 0xFFFFFFFF
+
+    def T_prime(val):
+        b0, b1, b2, b3 = SBOX[(val >> 24) & 0xFF], SBOX[(val >> 16) & 0xFF], SBOX[(val >> 8) & 0xFF], SBOX[val & 0xFF]
+        return L_prime((b0 << 24) | (b1 << 16) | (b2 << 8) | b3)
+
+    def T(val):
+        b0, b1, b2, b3 = SBOX[(val >> 24) & 0xFF], SBOX[(val >> 16) & 0xFF], SBOX[(val >> 8) & 0xFF], SBOX[val & 0xFF]
+        return L((b0 << 24) | (b1 << 16) | (b2 << 8) | b3)
+
+    def expand_key(key_bytes):
+        K = list(struct.unpack('>4I', key_bytes))
+        rk = []
+        for i in range(4):
+            K[i] ^= FK_CONST[i]
+        for i in range(32):
+            val = T_prime(K[(i+1)%4] ^ K[(i+2)%4] ^ K[(i+3)%4] ^ CK_CONST[i])
+            K[i%4] ^= val
+            rk.append(K[i%4])
+        return rk
+
+    def decrypt_block(ct, rk):
+        X = list(ct)
+        for i in range(32):
+            val = T(X[(i+1)%4] ^ X[(i+2)%4] ^ X[(i+3)%4] ^ rk[31-i])
+            X[i%4] ^= val
+        return struct.pack('>4I', X[3], X[2], X[1], X[0])
+
+    print("\n[+] 正在根据 Custom SM4 定义进行解密运算...")
+    rk = expand_key(b'We1c0me_t0_xmctf')
+    flag = b''
+    for i in range(0, len(CT), 4):
+        flag += decrypt_block(CT[i:i+4], rk)
+    print("\n" + "=" * 50)
+    print(f"解出的 Flag: {flag.decode('utf-8', errors='ignore')}")
+    print("=" * 50)
+
+def main():
+    try:
+        pe = pefile.PE('dumped.exe')
+        data = pe.get_memory_mapped_image()
+        base_addr = pe.OPTIONAL_HEADER.ImageBase
+    except FileNotFoundError:
+        print("[!] 错误: 未找到 dumped.exe，请确保脚本在题目的当前目录下执行。")
+        return
+    disassemble_vm(data, base_addr)
+    decrypt_sm4(data, base_addr)
+
+if __name__ == '__main__':
+    main()</code></pre>
+
                 <h2>ezLanguage</h2>
                 
                 <p>拖进die一看有壳，32位，在x32dbg中用esp定理找到oep在用Scylla dump脱壳重建iat表。然后在拖到ida中，发现有一大堆混淆花指令，写个ida python脚本，批量去除一下。</p>
 
-                <p>然后从字符串引用找到主逻辑sub_40118F 看着逻辑好乱，还有一堆sub_401714，像是vm的分发器，查了一下好像是易语言的引擎吧。继续分析这段伪代码，大体上只能看懂进行一堆运算，最后与+bx 中间的核心算法为对于第 i 个字符 c (i 始于 1)： 索引1: (c / 17.0 + i - 1) % 34.0 + 1 索引2: 35.0 - ((c % 17.0 + i) % 34.0) (遇 35 则置 1) 总之 就是商和余数分别附加在i上。 最后因为前后字符之间无关可以通过爆破得出flag def solve(): cipher = "</p>
+                <pre><code class="language-python">import ida_bytes
+import idc
+import ida_auto
 
-                <h2>总结</h2>
-                
-                <p>这次星盟2026招新赛的逆向题目涵盖了多个方面的技术和工具使用。</p>
+def clean_junk():
+    start_ea = 0x401000
+    end_ea = 0x47b000
+    ea = start_ea
+    while ea < end_ea:
+        b1 = ida_bytes.get_byte(ea)
+        b2 = ida_bytes.get_byte(ea+1)
+        b3 = ida_bytes.get_byte(ea+2)
+        if b1 == 0xEB:
+            if b2 == 0x01:
+                for i in range(3):
+                    ida_bytes.patch_byte(ea+i, 0x90)
+                ea += 3
+                continue
+            elif b2 == 0x02:
+                for i in range(4):
+                    ida_bytes.patch_byte(ea+i, 0x90)
+                ea += 4
+                continue
+        if (b1 == 0xF8 and b2 == 0x73 and b3 == 0x01) or \
+           (b1 == 0xF9 and b2 == 0x72 and b3 == 0x01):
+            for i in range(4):
+                ida_bytes.patch_byte(ea+i, 0x90)
+            ea += 4
+            continue
+        if b1 == 0x33 and b2 == 0xC0 and b3 == 0x74 and ida_bytes.get_byte(ea+3) == 0x01:
+            ida_bytes.patch_byte(ea+2, 0x90)
+            ida_bytes.patch_byte(ea+3, 0x90)
+            ida_bytes.patch_byte(ea+4, 0x90)
+            ea += 5
+            continue
+        if b1 == 0xE8 and ida_bytes.get_dword(ea+1) == 0:
+            if ida_bytes.get_byte(ea+5) == 0x83 and \
+               ida_bytes.get_byte(ea+6) == 0x04 and \
+               ida_bytes.get_byte(ea+7) == 0x24:
+                add_val = ida_bytes.get_byte(ea+8)
+                if ida_bytes.get_byte(ea+9) == 0xC3:
+                    junk_len = add_val - 5
+                    for i in range(10 + junk_len):
+                        ida_bytes.patch_byte(ea+i, 0x90)
+                    ea += (10 + junk_len)
+                    continue
+        ea += 1
+
+clean_junk()
+ida_bytes.del_items(0x401000, 0, 0x47B000 - 0x401000)
+ida_auto.plan_and_wait(0x401000, 0x47B000)</code></pre>
+
+                <p>然后从字符串引用找到主逻辑sub_40118F 看着逻辑好乱，还有一堆sub_401714，像是vm的分发器，查了一下好像是易语言的引擎吧。继续分析这段伪代码，大体上只能看懂进行一堆运算，最后与+bx 中间的核心算法为对于第 i 个字符 c (i 始于 1)： 索引1: (c / 17.0 + i - 1) % 34.0 + 1 索引2: 35.0 - ((c % 17.0 + i) % 34.0) (遇 35 则置 1) 总之 就是商和余数分别附加在i上。 最后因为前后字符之间无关可以通过爆破得出flag def solve(): cipher = "</p>
             </div>
         </article>
     </main>
